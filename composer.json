@@ -1,0 +1,16 @@
+{
+    "name": "webelightdev/laravel-slider",
+    "description": "configer slider from UI",
+    "type": "library",
+    "require": {
+        "intervention/image": "^2.4"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jitendrabavliya",
+            "email": "pateljitendra3fw@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
