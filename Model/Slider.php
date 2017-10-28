@@ -8,7 +8,7 @@ class Slider extends Model
 {
     protected $table = 'sliders';
 
-    protected $fillable = ['name', 'slider_type', 'is_active', 'auto_paly', 'slides_per_page'];
+    protected $fillable = ['name', 'slider_type','auto_paly', 'slides_per_page'];
 
 
     public function slides() {

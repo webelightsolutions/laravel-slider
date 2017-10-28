@@ -22,19 +22,6 @@
                         <option value="slider">Slider</option>
                     </select>
                 </div>
-
-                <div class="form-group col-md-6">
-                    <label class="color-black m-left-16">Start Date</label>
-                    <input type="date" name="start_date" class="form-control m-left-16 ">
-                </div>
-                <div class="form-group col-md-6">
-                    <label class="color-black"> End Date</label>
-                    <input type="date" name="end_date" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label class="color-black"> Slides Per Page</label>
-                    <input type="text" name="slides_per_page" class="form-control">
-                </div>
                 <div class="form-group">
                     <label class="color-black">Auto play </label>
                     <select class="form-control color-black" name="auto_play">
@@ -43,23 +30,18 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="color-black"> Is_Active </label>
-                    <br/>
-                    <label class="radio-inline color-black">
-                        <input type="radio" name="is_active" value="1"> Yes
-                    </label>
-                    <label class="radio-inline color-black">
-                        <input type="radio" name="is_active" value="0"> No
-                    </label>
+                    <label class="color-black"> Slides Per Page</label>
+                    <input type="text" name="slides_per_page" class="form-control">
                 </div>
                 <div class="form-group">
                     <label class="color-black"> Select Slider Images</label>
                     <input type="file" name="image_name[]" class="form-control" id="gallery-photo-add" multiple/>
-                    <div class="gallery">
-                        <div class="image-action" onclick="removeImage(this)"><a class="btn btn-danger btn-sm"> X </a></div>
-                    </div>
-                    <script type="text/javascript">
+                </div>
 
+                    <div class="gallery row">
+                    </div>
+
+                    <script type="text/javascript">
                     $(function() {
                         // Multiple images preview in browser
                         var imagesPreview = function(input, placeToInsertImagePreview) {
@@ -68,7 +50,7 @@
                                 for (i = 0; i < filesAmount; i++) {
                                     var reader = new FileReader();
                                     reader.onload = function(event) {
-                                        $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                                        $($.parseHTML('<div class="image-div col-sm-4"><img class="img img-thumbnail m-top-30" width="360" height="130" src="'+event.target.result+'"><label class="color-black">Start Date</label><input type="date" name="start_date" class="form-control"><label class="color-black">End Date</label><input type="date" name="end_date" class="form-control"><label class="color-black">Is Active</lable><input type="checkbox" class="form-control" name="image_name[is_active]" value="1"></div>')).appendTo('div.gallery');
                                     }
                                     reader.readAsDataURL(input.files[i]);
                                 }
@@ -82,13 +64,11 @@
                     });
 
                     function removeImage(id) {
-
-                        $(id).parent().remove();
+                        $(this).remove();
 
                     }
                     </script>
                 </div>
-            </div>
             <div class="panel-footer">
                 <button type="submit" class="btn btn-primary">
                     Save
@@ -97,5 +77,5 @@
         </form>
     </div>
 </div>
-</div>
+
 @endsection

@@ -26,6 +26,7 @@ class SliderController extends Controller
      */
     public function index()
     {
+       
        $sliders = Slider::orderBy('id', 'desc')->with('slides')->get();
        return view('laravel-slider::index', compact('sliders'));
     }
@@ -51,6 +52,8 @@ class SliderController extends Controller
         $data = $request->all();
         $path = $data['name'].'/';
         $newSlider = Slider::create($data);
+        $date = $request->image_name;
+
         if ($files = $request->file('image_name')) {
             foreach ($files as $file) {
                 $originalName = $file->getClientOriginalName();
@@ -74,8 +77,8 @@ class SliderController extends Controller
      */
     public function show($id)
     {
-        $slider = Slider::where('id', $id)->first();
-        return view('laravel-slider::show', compact('slider'));
+        $previewSlider = Slider::where('id', $id)->with('slides')->first();
+        return view('laravel-slider::show', compact('previewSlider'));
     }
 
     /**
@@ -86,9 +89,18 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
+        dd($id);
         $slider = Slider::where('id', $id)->first();
         return view('laravel-slider::edit', compact('slider'));
     }
+
+    public function preview(Request $request)
+    {
+        $sliderId = $request->sliderID;
+        $slider = Slider::where('id', $sliderId)->with('slides')->first();
+        return view('laravel-slider::index', compact('slider'));
+    }
+
 
     /**
      * Update the specified resource in storage.

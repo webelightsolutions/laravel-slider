@@ -1,63 +1,28 @@
- @extends('layouts.app') @section('content')
-<div class="panel-body">
-    {{ csrf_field() }}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Slider
-        </div>
-        <div class="panel-body">
-            <table class="table table-striped task-table table-bordered">
-                <thead>
-                   <th>Name</th>
-                    <th>Slider Type </th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Slide Per Page</th>
-                    <th>Auto Play</th>
-                    <th>Is Active</th>
-                </thead>
-                @if (isset($slider))
-                <tbody>
-                    <tr>
-                        <td class="table-text">
-                            <div>{{ $slider->name }}</div>
-                        </td>
-                        <td class="table-text">
-                            <div>{{ $slider->slider_type }}</div>
-                        </td>
-                        <td class="table-text">
-                            <div>{{ $slider->slides[0]['start_date'] }}</div>
-                        </td>
-                        <td class="table-text">
-                            <div>{{ $slider->slides[0]['end_date'] }}</div>
-                        </td>
-                        <td class="table-text">
-                            <div>{{ $slider->slides_per_page }}</div>
-                        </td>
-                        <td class="table-text">
-                            @if($slider->auto_play == 1)
-                            <div> On </div>
-                            @else
-                            <div> Off </div>
-                            @endif
-                        </td>
-                        <td class="table-text">
-                            @if($slider->is_active == 1)
-                            <div> Yes </div>
-                            @else
-                            <div> No </div>
-                            @endif
-                        </td>
-                    </tr>
-                </tbody>
-                @else
-                <div class="alert alert-info">
-                    No Details found.
-                </div>
-                @endif
-            </table>
-        </div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog model-width " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Recipient:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
     </div>
+  </div>
 </div>
-</div>
-@endsection
