@@ -67,10 +67,7 @@
                                 {{ csrf_field() }} {{ method_field('DELETE') }}
                                 <button class="btn btn-danger btn-sm ">Delete</button>
                             </form>
-                       {{--      <a class="previewSlides btn btn-default" data-toggle="modal" data-target="#exampleModal" href='{{ $slider->id }}'>Preview Slider</a> --}}
-
-                       {{-- <a class="previewSlides btn btn-default" name='{{ $slider->id }}'>Preview Slider</a> --}}
-                       <button type="button" class="btn btn-default previewSlides" value="{{ $slider->id }}" data-toggle="modal" data-target="#exampleModal">Preview</button>
+                            <button type="button" class="btn btn-default previewSlides" value="{{ $slider->id }}">Preview</button>
                         </td>
                     </tr>
                     @endforeach
@@ -82,65 +79,54 @@
                     </tr>
                 </tbody>
                 @endif
-
             </table>
-
-                <script type="text/javascript">
-                $(function() {                
+            <script type="text/javascript">
+            $(function() {
 
                 var $jQuery = jQuery;
+                var $sliderId;
+                var sliderIdRequest;
 
                 $('.previewSlides').on('click', function() {
-                    var sliderId = $(this).val();
-
-                    var sliderIdRequest = $.ajax({
+                    var $sliderId = $(this).val();
+                    sliderIdRequest = $.ajax({
                         type: 'GET',
                         url: '/slider/preview',
                         data: {
-                            'sliderID': sliderId,
+                            'sliderId': $sliderId,
                         },
 
                     });
-
                 });
-                    sliderIdRequest.done(function(response) {
-                        console.log(response);
-                        $jQuery('.modal-body').html(response);
-                    });
+                $('#demoModal').modal('show');
+
+                sliderIdRequest.done(function(response) {
+                    $('div.modal-body').html(response);
+                });
             });
-                </script>
+
+            </script>
         </div>
     </div>
 </div>
 
-<div class="model-body"></div>
 
-{{-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog model-width " role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Recipient:</label>
-            <input type="text" class="form-control" id="recipient-name">
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
-      </div>
+{{-- <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Slides</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div> --}}
+
 @endsection

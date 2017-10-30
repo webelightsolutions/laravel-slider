@@ -27,7 +27,7 @@ class SliderController extends Controller
     public function index()
     {
        
-       $sliders = Slider::orderBy('id', 'desc')->with('slides')->get();
+       $sliders = Slider::orderBy('id', 'desc')->get();
        return view('laravel-slider::index', compact('sliders'));
     }
 
@@ -75,12 +75,12 @@ class SliderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    /*public function show($id)
     {
         $previewSlider = Slider::where('id', $id)->with('slides')->first();
         return view('laravel-slider::show', compact('previewSlider'));
     }
-
+*/
     /**
      * Show the form for editing the specified resource.
      *
@@ -89,16 +89,17 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        dd($id);
         $slider = Slider::where('id', $id)->first();
         return view('laravel-slider::edit', compact('slider'));
     }
 
     public function preview(Request $request)
     {
-        $sliderId = $request->sliderID;
-        $slider = Slider::where('id', $sliderId)->with('slides')->first();
-        return view('laravel-slider::index', compact('slider'));
+       $sliders = Slider::orderBy('id', 'desc')->get();
+        $sliderId = $request->sliderId;
+        $previewSlides = Slider::where('id', $sliderId)->with('slides')->first();
+        //dd($previewSlides->toArray());
+        return view('laravel-slider::show', compact('previewSlides', 'sliders'));
     }
 
 
@@ -137,13 +138,12 @@ class SliderController extends Controller
 
     public function formActions($id)
     {
-
-        $status = Slider::where('id', $id)->pluck('is_active')->first();
+        $status = SliderImage::where('id', $id)->pluck('is_active')->first();
         if ($status == 1) {
-            Slider::find($id)->update(['is_active' => "0"]);
+            SliderImage::find($id)->update(['is_active' => "0"]);
             return redirect('/slider');
         } else {
-            Slider::find($id)->update(['is_active' => "1"]);
+            SliderImage::find($id)->update(['is_active' => "1"]);
             return redirect('/slider');
         }
     }
