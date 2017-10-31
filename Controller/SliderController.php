@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
+use Carbon\Carbon;
 
 
 
@@ -50,6 +51,7 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        dd($data);
         $path = $data['name'].'/';
         $newSlider = Slider::create($data);
         $date = $request->image_name;
@@ -62,6 +64,10 @@ class SliderController extends Controller
                 $data['slider_id'] = $newSlider['id'];
                 $data['start_date'] = $data['start_date'];
                 $data['end_date'] = $data['end_date'];
+                $data['title'] = $data['title'];
+                $data['description'] = $data['description'];
+                $data['settings'] = $data['settings'];
+                $data['caption_size'] = $data['caption_size'];
                 SliderImage::create($data);
             }
         }
@@ -75,12 +81,19 @@ class SliderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    /*public function show($id)
+    public function show($id)
     {
-        $previewSlider = Slider::where('id', $id)->with('slides')->first();
-        return view('laravel-slider::show', compact('previewSlider'));
+        
+        $currentDate = Carbon::now();
+        $currentFormatedDate = $currentDate->format("Y-m-d");
+
+        $slider = Slider::where('id', $id)->first();
+        $slides = \DB::select("
+            SELECT * from slider_images 
+            where is_active = 1 AND slider_id = ? AND ? BETWEEN DATE_FORMAT(start_date, '%Y-%m-%d') AND DATE_FORMAT(end_date, '%Y-%m-%d')", [$slider->id, $currentFormatedDate]);
+        return view('laravel-slider::show', compact('slides', 'slider'));
     }
-*/
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -153,7 +166,7 @@ class SliderController extends Controller
        $img = Image::make($file)->resize(270, 270, function ($constraint) {
                $constraint->aspectRatio();
            });
-           $img->resizeCanvas(300, 300, 'center', false, '#ffffff')->save();
+           $img->save();
 
            $directory = Storage::disk('slider')->makeDirectory($path.'original');
            Storage::disk('slider')->put($path.'original'.'/'.$originalName, $img);
