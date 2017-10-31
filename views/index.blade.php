@@ -67,6 +67,7 @@
                                 {{ csrf_field() }} {{ method_field('DELETE') }}
                                 <button class="btn btn-danger btn-sm ">Delete</button>
                             </form>
+                            <a href='{{ url("slider/$slider->id") }}' class="btn btn-default" target="_blank">Show</a>
                             <button type="button" class="btn btn-default previewSlides" value="{{ $slider->id }}">Preview</button>
                         </td>
                     </tr>
@@ -80,7 +81,7 @@
                 </tbody>
                 @endif
             </table>
-            <script type="text/javascript">
+           {{--  <script type="text/javascript">
             $(function() {
 
                 var $jQuery = jQuery;
@@ -105,7 +106,7 @@
                 });
             });
 
-            </script>
+            </script> --}}
         </div>
     </div>
 </div>

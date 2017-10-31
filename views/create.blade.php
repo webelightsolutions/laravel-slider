@@ -50,7 +50,7 @@
                                 for (i = 0; i < filesAmount; i++) {
                                     var reader = new FileReader();
                                     reader.onload = function(event) {
-                                        $($.parseHTML('<div class="image-div col-sm-4"><img class="img img-thumbnail m-top-30" width="360" height="130" src="'+event.target.result+'"><label class="color-black">Start Date</label><input type="date" name="start_date" class="form-control"><label class="color-black">End Date</label><input type="date" name="end_date" class="form-control"><label class="color-black">Is Active</lable><input type="checkbox" class="form-control" name="image_name[is_active]" value="1"></div>')).appendTo('div.gallery');
+                                        $($.parseHTML('<div class="image-div col-sm-4"><img class="img img-thumbnail m-top-30" width="360" height="130" src="'+event.target.result+'"><label class="color-black">Start Date</label><input type="date" name="start_date" class="form-control"><label class="color-black">End Date</label><input type="date" name="end_date" class="form-control"><label>Title</label><input type="text" name="title" class="form-control"><label>Description</label><input type="text" name="description" class="form-control"><label>Title Color</label><input type="color" name="settings" class="form-control"><label>Caption Size</label><input type="text" name="caption_size" class="form-control"><label class="color-black">Is Active</lable><input type="checkbox" class="form-control" name="is_active" value="1"></div>')).appendTo('div.gallery');
                                     }
                                     reader.readAsDataURL(input.files[i]);
                                 }
