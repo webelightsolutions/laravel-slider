@@ -8,7 +8,7 @@ class SliderImage extends Model
 {
    protected $table = 'slider_images';
 
-   protected $fillable = ['slider_id', 'title', 'is_active', 'caption', 'description', 'image_name', 'start_date', 'end_date'];
+   protected $fillable = ['slider_id', 'title', 'is_active', 'caption', 'description', 'image_name', 'start_date', 'end_date', 'settings', 'caption_size'];
 
    public function slider() {
    	return $this->belongsTo('\Webelightdev\LaravelSlider\Model\Slider', 'slider_id');
