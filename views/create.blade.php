@@ -13,7 +13,7 @@
             <div class="panel-body">
                 <div class="form-group">
                     <label class="color-black">Slider Name </label>
-                    <input type="text" name="name" class="form-control" value="Lravel Slider">
+                    <input type="text" name="name" class="form-control" value="Lravel Slider" id="sliderName">
                 </div>
                 <div class="form-group">
                     <label class="color-black"> Slider Type </label>
@@ -34,41 +34,61 @@
                     <input type="text" name="slides_per_page" class="form-control">
                 </div>
                 <div class="form-group">
+                    <label class="color-black"> Slider Width (%)</label>
+                    <input type="text" name="slider_width" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="color-black"> Slider Height (%)</label>
+                    <input type="text" name="slider_height" class="form-control">
+                </div>
+                <div class="form-group">
                     <label class="color-black"> Select Slider Images</label>
                     <input type="file" name="image_name[]" class="form-control" id="gallery-photo-add" multiple/>
                 </div>
 
-                    <div class="gallery row">
-                    </div>
-
-                    <script type="text/javascript">
-                    $(function() {
-                        // Multiple images preview in browser
-                        var imagesPreview = function(input, placeToInsertImagePreview) {
-                            if (input.files) {
-                                var filesAmount = input.files.length;
-                                for (i = 0; i < filesAmount; i++) {
-                                    var reader = new FileReader();
-                                    reader.onload = function(event) {
-                                        $($.parseHTML('<div class="image-div col-sm-4"><img class="img img-thumbnail m-top-30" width="360" height="130" src="'+event.target.result+'"><label class="color-black">Start Date</label><input type="date" name="start_date" class="form-control"><label class="color-black">End Date</label><input type="date" name="end_date" class="form-control"><label>Title</label><input type="text" name="title" class="form-control"><label>Description</label><input type="text" name="description" class="form-control"><label>Title Color</label><input type="color" name="settings" class="form-control"><label>Caption Size</label><input type="text" name="caption_size" class="form-control"><label class="color-black">Is Active</lable><input type="checkbox" class="form-control" name="is_active" value="1"></div>')).appendTo('div.gallery');
-                                    }
-                                    reader.readAsDataURL(input.files[i]);
-                                }
-                            }
-
-                        };
-
-                        $('#gallery-photo-add').on('change', function() {
-                            imagesPreview(this, 'div.gallery');
-                        });
-                    });
-
-                    function removeImage(id) {
-                        $(this).remove();
-
-                    }
-                    </script>
+                <div class="row" id="gallery">
                 </div>
+                <script type="text/javascript">
+                $(function() {
+
+                    // Variable to store your files
+                    var files;
+                    var startDate;
+                    var $sliderName;
+                    // Add events
+                    $('input[type=file]').on('change', function(event) {
+                        files = event.target.files;
+                
+                        
+                       $sliderName = $('#sliderName').val();
+
+
+                        // Create a formdata object and add the files
+                        var data = new FormData();
+                        $.each(files, function(key, value) {
+                           data.append(key, value);
+                        });
+                       
+
+                       $sliderImageRequest = $.ajax({
+                            url: '/slides/preview',
+                            type: 'POST',
+                            data: data,
+                            cache: false,
+                            dataType: 'html',
+                            processData: false, // Don't process the files
+                            contentType: false, // Set content type to false as jQuery will tell the server its a
+                        });
+
+                       $sliderImageRequest.then(function (response) {
+                                $("#gallery").html(response);
+                            
+                        });
+
+                    });
+                });
+                </script>
+            </div>
             <div class="panel-footer">
                 <button type="submit" class="btn btn-primary">
                     Save
@@ -77,5 +97,4 @@
         </form>
     </div>
 </div>
-
 @endsection
