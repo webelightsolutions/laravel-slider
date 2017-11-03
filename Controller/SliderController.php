@@ -28,7 +28,7 @@ class SliderController extends Controller
     public function index()
     {
        
-       $sliders = Slider::orderBy('id', 'desc')->get();
+       $sliders = Slider::orderBy('id', 'desc')->with('slides')->get();
        return view('laravel-slider::index', compact('sliders'));
     }
 
@@ -51,14 +51,14 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-
         // Get list of file names from request as array [temp storage]
         $sliderImages = $data['image_name'];
 
+        $sliderName = $data['name'];
         // Move SliderImages from temp storage to original storage
-        $oldPath ='temp/sliders/';
+        $oldPath ='temp/'.$sliderName.'/';
         $targetPath = 'slide';
-        $resultFiles = $this->moveAllFiles($sliderImages, $oldPath, $targetPath);
+        $resultFiles = $this->moveAllFiles($sliderImages, $oldPath, $targetPath, $sliderName);
 
         $path = $data['name'].'/';
         $newSlider = Slider::create($data);
@@ -72,17 +72,16 @@ class SliderController extends Controller
         return redirect('slider')->with('success', 'Slider saved successfully');
     }
 
-    public function moveAllFiles($files, $oldPath, $targetPath)
+    public function moveAllFiles($files, $oldPath, $targetPath, $sliderName)
     {
-
         $result = [];
         $hasErrorInS3 = false;
         $files = Storage::disk('public')->files('temp/sliders/');
         
         foreach ($files as $file) {
-            $directory = Storage::disk('public')->makeDirectory('sliders');
+            $directory = Storage::disk('public')->makeDirectory($sliderName);
             $Response = Storage::disk('public')
-                ->move($file, 'sliders/'.basename($file));
+                ->move($file, $sliderName.'/original/'.basename($file));
 
         }
         $result['success'] = "Files have been moved successfully.";
@@ -123,7 +122,6 @@ class SliderController extends Controller
     public function preview(Request $request)
     {
         $selectedFiles = $request->all();
-        dd($selectedFiles);
         $folderName = 'sliders';
         $path = 'temp/'.$folderName. '/';
         foreach ($selectedFiles as $file) {
