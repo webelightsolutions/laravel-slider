@@ -53,22 +53,25 @@
 
                     // Variable to store your files
                     var files;
+                    var text;
                     var startDate;
-                    var $sliderName;
+                    var sliderName;
+        
                     // Add events
                     $('input[type=file]').on('change', function(event) {
                         files = event.target.files;
-                
-                        
-                       $sliderName = $('#sliderName').val();
 
 
                         // Create a formdata object and add the files
                         var data = new FormData();
+                       
+    
+
                         $.each(files, function(key, value) {
                            data.append(key, value);
                         });
-                       
+
+                         
 
                        $sliderImageRequest = $.ajax({
                             url: '/slides/preview',

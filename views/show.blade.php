@@ -4,7 +4,6 @@
 <script async src="https://cdn.ampproject.org/v0.js"></script>
 <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
 
-
 <amp-carousel  height="320" layout="fixed-height" type="carousel">
     @foreach ($slides as $key => $slide)
         <a href="#">

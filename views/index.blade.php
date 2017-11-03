@@ -15,8 +15,6 @@
                     <th>Sr.No.</th>
                     <th>Name</th>
                     <th>Slider Type </th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
                     <th>Slides Per Page</th>
                     <th>Auto Play</th>
                     <th>Is Active</th>
@@ -25,21 +23,13 @@
                 @if (count($sliders) > 0)
                 <tbody>
                     <?php $counter = 1; ?> @foreach ($sliders as $slider)
-                    <tr>
+                    <tr> 
                         <td>{{ $counter++ }}</td>
                         <td class="table-text">
                             <div>{{ $slider->name }}</div>
                         </td>
                         <td class="table-text">
                             <div>{{ $slider->slider_type }}</div>
-                        </td>
-                        <td class="table-text">
-                            {{--
-                            <div>{{ $slider->slides[0]['start_date'] }}</div> --}}
-                        </td>
-                        <td class="table-text">
-                            {{--
-                            <div>{{ $slider->slides[0]['end_date'] }}</div> --}}
                         </td>
                         <td class="table-text">
                             <div>{{ $slider->slides_per_page }}</div>
