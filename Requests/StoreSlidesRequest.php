@@ -28,6 +28,10 @@ class StoreSlidesRequest extends FormRequest
             'title' => 'required',
             'is_active' => 'required',
             'caption' => 'required',
+            'description' => 'required',
+            'image_name' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required'
         ];
     }
 }

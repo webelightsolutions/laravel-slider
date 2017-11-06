@@ -24,13 +24,13 @@ class StoreSliderRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
+            'name' => 'required',
             'slider_type' => 'required',
             'is_active' => 'required',
             'auto_paly' => 'required',
-            'slides_to_show' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
+            'slides_per_page' => 'required',
+            'slider_width' => 'required',
+            'slider_height' => 'required'
         ];
     }
 }

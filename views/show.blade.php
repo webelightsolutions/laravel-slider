@@ -11,7 +11,7 @@
               width="400"
               height="300"
               alt="a sample image"></amp-img>
-        </a> 
+        </a>         
     @endforeach
 </amp-carousel>
 </div>

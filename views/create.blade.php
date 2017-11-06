@@ -13,7 +13,7 @@
             <div class="panel-body">
                 <div class="form-group">
                     <label class="color-black">Slider Name </label>
-                    <input type="text" name="name" class="form-control" value="Lravel Slider" id="sliderName">
+                    <input type="text" name="name" class="form-control" id="sliderName">
                 </div>
                 <div class="form-group">
                     <label class="color-black"> Slider Type </label>

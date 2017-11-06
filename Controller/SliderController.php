@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
 use Carbon\Carbon;
-
+use Illuminate\Database\QueryException;
 
 
 class SliderController extends Controller
@@ -51,6 +51,7 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+
         // Get list of file names from request as array [temp storage]
         $sliderImages = $data['image_name'];
 
@@ -80,8 +81,16 @@ class SliderController extends Controller
         
         foreach ($files as $file) {
             $directory = Storage::disk('public')->makeDirectory($sliderName);
-            $Response = Storage::disk('public')
+            Storage::disk('public')
                 ->move($file, $sliderName.'/original/'.basename($file));
+
+            /*$img = Image::make($file)->resize(100, 50, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->resizeCanvas(50, 22, 'center', false, '#ffffff')->save();
+
+            Storage::disk('public')
+                ->put($sliderName.'/thumbnail/'.basename($file), $img);*/
 
         }
         $result['success'] = "Files have been moved successfully.";
@@ -115,7 +124,7 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        $slider = Slider::where('id', $id)->first();
+        $slider = Slider::where('id', $id)->with('slides')->first();
         return view('laravel-slider::edit', compact('slider'));
     }
 
@@ -136,6 +145,7 @@ class SliderController extends Controller
         $extension = $file->getClientOriginalExtension();
         $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $fileName = $this->cleanString($fileName);
+        $fileName = time().'_'.$fileName;
         $finalFileName = $path.$fileName.'.'.$extension;
         Storage::disk($storageName)->put($finalFileName, File::get($file));
         $exists = Storage::disk($storageName)->exists($finalFileName);
@@ -169,12 +179,73 @@ class SliderController extends Controller
     {
         $data = $request->all();
         $data = $request->except(['_token', '_method']);
-        try {
-            Slider::where('id', $id)->update($data);
-        } catch (\Illuminate\Database\QueryException $e) {
-            dd($e->getMessage());
-            return redirect('laravel-slider::edit')->with('error', $e->getMessage())->withInput();
+
+        $slider = Slider::where('id', $id)->first();
+        
+        if($slider){
+           $slider->fill($data);
+
+           try {
+                $slider->save();    
+           } catch (QueryException $e) {
+                return redirect('laravel-slider::edit')->with('error', $e->getMessage())->withInput();
+           }
+        } else {
+            return redirect('laravel-slider::index')->with('error', $e->getMessage());
         }
+        
+        //get list of slides id from request
+        $inputSlidesIds = collect($data['oldSlides'])->pluck('id')->all();
+
+        //get list of slides from the database for perticular slider
+        $existingSlidesIds = SliderImage::where('slider_id',$id)->pluck('id')->all();
+
+        //get Difference between input and existing slides id
+        $toBeDeletedSlidesIds = array_diff($existingSlidesIds, $inputSlidesIds);
+
+        // Delete those slides which are found in the above difference
+        SliderImage::where('slider_id', $id)->whereIn('id', $toBeDeletedSlidesIds)->delete();
+        
+        foreach ($data['oldSlides'] as $slide) {
+            $slides = SliderImage::where('slider_id', $id)->where('id', $slide['id'])->first();
+            if($slides) {
+               $slides->fill($slide);
+               try {
+                    $slides->save();
+               } catch (QueryException $e) {
+                    return redirect('laravel-slider::edit')->with('error', $e->getMessage())->withInput();
+                 }
+            } else {
+                try {
+                    SliderImage::create($slide);
+                } catch (QueryException $e) {
+                     return redirect('laravel-slider::index')->with('error', $e->getMessage());  
+                }
+
+            }
+        }
+
+        //New Slide Added druing edit methode
+        if(array_has($data, 'slides')) {
+
+            // Get list of file names from request as array [temp storage]
+            $sliderImages = $data['image_name'];
+
+            $sliderName = $data['name'];
+            // Move SliderImages from temp storage to original storage
+            $oldPath ='temp/'.$sliderName.'/';
+            $targetPath = 'slide';
+            $resultFiles = $this->moveAllFiles($sliderImages, $oldPath, $targetPath, $sliderName);
+
+            foreach ($data['slides'] as $slide) {
+             try {
+                $slide['slider_id'] = $id;
+                SliderImage::create($slide);
+             } catch (Exception $e) {
+                 return redirect('laravel-slider::edit')->with('error', $e->getMessage())->withInput();
+             }
+            } 
+         }
         return redirect('slider')->with('success', 'Lookup details updated successfully.');
     }
 
