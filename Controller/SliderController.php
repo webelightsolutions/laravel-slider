@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
+use Webelightdev\LaravelSlider\Helpers\EloquentHelpers;
+use Webelightdev\LaravelSlider\Helpers\IOHelpers;
 
 
 class SliderController extends Controller
@@ -27,7 +29,6 @@ class SliderController extends Controller
      */
     public function index()
     {
-       
        $sliders = Slider::orderBy('id', 'desc')->with('slides')->get();
        return view('laravel-slider::index', compact('sliders'));
     }
@@ -48,21 +49,25 @@ class SliderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreSliderRequest $request)
     {
         $data = $request->all();
 
         // Get list of file names from request as array [temp storage]
         $sliderImages = $data['image_name'];
-
         $sliderName = $data['name'];
+
         // Move SliderImages from temp storage to original storage
         $oldPath ='temp/'.$sliderName.'/';
         $targetPath = 'slide';
-        $resultFiles = $this->moveAllFiles($sliderImages, $oldPath, $targetPath, $sliderName);
+        $resultFiles = moveAllFiles($sliderImages, $oldPath, $targetPath, $sliderName);
 
         $path = $data['name'].'/';
-        $newSlider = Slider::create($data);
+        try {
+            $newSlider = Slider::create($data);    
+        } catch (Exception $e) {
+            return redirect('laravel-slider::create')->with('error', $e->getMessage())->withInput();
+        }
         $date = $request->image_name;
 
         foreach ($data['slides'] as $slide) {
@@ -73,29 +78,7 @@ class SliderController extends Controller
         return redirect('slider')->with('success', 'Slider saved successfully');
     }
 
-    public function moveAllFiles($files, $oldPath, $targetPath, $sliderName)
-    {
-        $result = [];
-        $hasErrorInS3 = false;
-        $files = Storage::disk('public')->files('temp/sliders/');
-        
-        foreach ($files as $file) {
-            $directory = Storage::disk('public')->makeDirectory($sliderName);
-            Storage::disk('public')
-                ->move($file, $sliderName.'/original/'.basename($file));
-
-            /*$img = Image::make($file)->resize(100, 50, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->resizeCanvas(50, 22, 'center', false, '#ffffff')->save();
-
-            Storage::disk('public')
-                ->put($sliderName.'/thumbnail/'.basename($file), $img);*/
-
-        }
-        $result['success'] = "Files have been moved successfully.";
-        return $result;
-    }
+    
 
     /**
      * Display the specified resource.
@@ -134,38 +117,9 @@ class SliderController extends Controller
         $folderName = 'sliders';
         $path = 'temp/'.$folderName. '/';
         foreach ($selectedFiles as $file) {
-           $images[] = $this->uploadFile($path, $file, 'public');
+           $images[] = uploadFile($path, $file, 'public');
         }
         return view('laravel-slider::preview', compact('selectedFiles', 'folderName' , 'images'));
-    }
-
-    function uploadFile($path, $file, $storageName)
-    {
-        $result = [];
-        $extension = $file->getClientOriginalExtension();
-        $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $fileName = $this->cleanString($fileName);
-        $fileName = time().'_'.$fileName;
-        $finalFileName = $path.$fileName.'.'.$extension;
-        Storage::disk($storageName)->put($finalFileName, File::get($file));
-        $exists = Storage::disk($storageName)->exists($finalFileName);
-        if ($exists) {
-            $result['success'] = 'File has been uploaded successfully.';
-        } else {
-            $result['error'] = 'File upload failed.';
-        }
-        $result['fileName'] = $fileName.'.'.$extension;
-        $result['mime'] = $file->getClientMimeType();
-        $result['fileExtension'] = $extension;
-        $result['slug'] = str_slug(str_random(10));
-        $result['fileLocation'] = $path;
-        return $result;
-    }
-
-    function cleanString($string)
-    {
-        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
-        return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
     }
 
     /**
@@ -235,7 +189,7 @@ class SliderController extends Controller
             // Move SliderImages from temp storage to original storage
             $oldPath ='temp/'.$sliderName.'/';
             $targetPath = 'slide';
-            $resultFiles = $this->moveAllFiles($sliderImages, $oldPath, $targetPath, $sliderName);
+            $resultFiles = moveAllFiles($sliderImages, $oldPath, $targetPath, $sliderName);
 
             foreach ($data['slides'] as $slide) {
              try {
@@ -272,22 +226,5 @@ class SliderController extends Controller
             SliderImage::find($id)->update(['is_active' => "1"]);
             return redirect('/slider');
         }
-    }
-
-    function resizeActualImage($originalName, $file, $path)
-    {
-            $img = Image::make($file);
-           $img->save();
-
-           $directory = Storage::disk('slider')->makeDirectory($path.'original');
-           Storage::disk('slider')->put($path.'original'.'/'.$originalName, $img);
-
-           $img = Image::make($file)->resize(env('SLIDES_WIDTH'), env('SLIDES_HEIGHT'), function ($constraint) {
-               $constraint->aspectRatio();
-           });
-           $img->resizeCanvas(env('CANVAS_WIDTH'), env('CANVAS_HEIGHT'), 'center', false, '#ffffff')->save();
-
-           $directory = Storage::disk('slider')->makeDirectory($path.'thumbnail');
-           Storage::disk('slider')->put($path.'thumbnail'.'/'.$originalName, $img);
     }
 }
