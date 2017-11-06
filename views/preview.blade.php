@@ -7,16 +7,16 @@
 	<input type="hidden" name="slides[{{$imageKey}}][image_name]" value="{{ $image['fileName'] }}">
 	
 	<label class="color-black">Start Date</label>
-	<input type="date" name="slides[{{$imageKey}}][start_date]" class="form-control">
+	<input type="date" name="slides[{{$imageKey}}][start_date]" class="form-control" required>
 	
 	<label class="color-black">End Date</label>
-	<input type="date" name="slides[{{$imageKey}}][end_date]" class="form-control">
+	<input type="date" name="slides[{{$imageKey}}][end_date]" class="form-control" required>
 	
 	<label>Title</label>
-	<input type="text" name="slides[{{$imageKey}}][title]" class="form-control">
+	<input type="text" name="slides[{{$imageKey}}][title]" class="form-control" required>
 	
 	<label>Description</label>
-	<input type="text" name="slides[{{$imageKey}}][description]" class="form-control">
+	<input type="text" name="slides[{{$imageKey}}][description]" class="form-control" required>
 	
 	<label class="color-black">Is Active</lable>
 	<input type="checkbox" class="form-control" name="slides[{{$imageKey}}][is_active]" value="1">

@@ -10,21 +10,10 @@
             </div>
         </div>
         <form method="POST" action="/slider" enctype="multipart/form-data" id="multiple_upload_form">
-            @if (session('success'))
-            <div class="alert alert-success">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <strong>Success</strong> {{ session('success') }}
-            </div>
-            @elseif (session('error'))
-            <div class="alert alert-danger">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <strong>Error!</strong> {{ session('error') }}
-            </div>
-            @endif {{ csrf_field() }}
             <div class="panel-body">
                 <div class="form-group">
                     <label class="color-black">Slider Name </label>
-                    <input type="text" name="name" class="form-control" id="sliderName">
+                    <input type="text" name="name" class="form-control" id="sliderName" required>
                 </div>
                 <div class="form-group">
                     <label class="color-black"> Slider Type </label>
@@ -42,20 +31,21 @@
                 </div>
                 <div class="form-group">
                     <label class="color-black"> Slides Per Page</label>
-                    <input type="text" name="slides_per_page" class="form-control">
+                    <input type="text" name="slides_per_page" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label class="color-black"> Slider Width (%)</label>
-                    <input type="text" name="slider_width" class="form-control">
+                    <input type="text" name="slider_width" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label class="color-black"> Slider Height (%)</label>
-                    <input type="text" name="slider_height" class="form-control">
+                    <input type="text" name="slider_height" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label class="color-black"> Select Slider Images</label>
-                    <input type="file" name="image_name[]" class="form-control" id="gallery-photo-add" multiple/ required>
+                    <label class="color-black">Images</label>
+                    <input type="file" name="image_name[]" class="form-control" id="gallery-photo-add" multiple/>
                 </div>
+
                 <div class="row" id="gallery">
                 </div>
                 <script type="text/javascript">
@@ -66,7 +56,7 @@
                     var text;
                     var startDate;
                     var sliderName;
-
+        
                     // Add events
                     $('input[type=file]').on('change', function(event) {
                         files = event.target.files;
@@ -74,16 +64,16 @@
 
                         // Create a formdata object and add the files
                         var data = new FormData();
-
-
+                       
+    
 
                         $.each(files, function(key, value) {
-                            data.append(key, value);
+                           data.append(key, value);
                         });
 
+                         
 
-
-                        $sliderImageRequest = $.ajax({
+                       $sliderImageRequest = $.ajax({
                             url: '/slides/preview',
                             type: 'POST',
                             data: data,
@@ -93,9 +83,9 @@
                             contentType: false, // Set content type to false as jQuery will tell the server its a
                         });
 
-                        $sliderImageRequest.then(function(response) {
-                            $("#gallery").html(response);
-
+                       $sliderImageRequest.then(function (response) {
+                                $("#gallery").html(response);
+                            
                         });
 
                     });
