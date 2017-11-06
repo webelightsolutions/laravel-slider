@@ -22,6 +22,17 @@ use Webelightdev\LaravelSlider\Helpers\IOHelpers;
 class SliderController extends Controller
 {
 
+    protected $slider;
+    
+    protected $sliderImage;
+
+
+    public function __construct(Slider $slider, SliderImage $sliderImage)
+    {
+        $this->slider = $slider;
+        $this->sliderImage = $sliderImage;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +40,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-       $sliders = Slider::orderBy('id', 'desc')->with('slides')->get();
+       $sliders = $this->slider->orderBy('id', 'desc')->with('slides')->get();
        return view('laravel-slider::index', compact('sliders'));
     }
 
@@ -49,7 +60,7 @@ class SliderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSliderRequest $request)
+    public function store(Request $request)
     {
         $data = $request->all();
 
@@ -64,15 +75,19 @@ class SliderController extends Controller
 
         $path = $data['name'].'/';
         try {
-            $newSlider = Slider::create($data);    
+            $newSlider = $this->slider->create($data);   
         } catch (Exception $e) {
             return redirect('laravel-slider::create')->with('error', $e->getMessage())->withInput();
         }
         $date = $request->image_name;
 
         foreach ($data['slides'] as $slide) {
-            $slide['slider_id'] = $newSlider['id'];
-            SliderImage::create($slide);
+            $slide['slider_id'] = $newSlider->id;
+            try {
+                $this->sliderImage->create($slide);
+            } catch (Exception $e) {
+                return redirect('laravel-slider::create')->with('error', $e->getMessage())->withInput();
+            }
         }
 
         return redirect('slider')->with('success', 'Slider saved successfully');
@@ -92,7 +107,7 @@ class SliderController extends Controller
         $currentDate = Carbon::now();
         $currentFormatedDate = $currentDate->format("Y-m-d");
 
-        $slider = Slider::where('id', $id)->first();
+        $slider = $this->slider->where('id', $id)->first();
         $slides = \DB::select("
             SELECT * from slider_images 
             where is_active = 1 AND slider_id = ? AND ? BETWEEN DATE_FORMAT(start_date, '%Y-%m-%d') AND DATE_FORMAT(end_date, '%Y-%m-%d')", [$slider->id, $currentFormatedDate]);
@@ -107,7 +122,7 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        $slider = Slider::where('id', $id)->with('slides')->first();
+        $slider = $this->slider->where('id', $id)->with('slides')->first();
         return view('laravel-slider::edit', compact('slider'));
     }
 
@@ -131,14 +146,21 @@ class SliderController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $result = [];
+        $slider = $this->slider->findOrFail($id);
+        
+        if(!$slider) {
+            $result['error'] = 'Slider details does not exists.';
+            return $result;
+        }
+
         $data = $request->all();
         $data = $request->except(['_token', '_method']);
 
-        $slider = Slider::where('id', $id)->first();
+        $slider = $this->slider->where('id', $id)->first();
         
         if($slider){
            $slider->fill($data);
-
            try {
                 $slider->save();    
            } catch (QueryException $e) {
@@ -152,16 +174,16 @@ class SliderController extends Controller
         $inputSlidesIds = collect($data['oldSlides'])->pluck('id')->all();
 
         //get list of slides from the database for perticular slider
-        $existingSlidesIds = SliderImage::where('slider_id',$id)->pluck('id')->all();
+        $existingSlidesIds = $this->sliderImage->where('slider_id',$id)->pluck('id')->all();
 
         //get Difference between input and existing slides id
         $toBeDeletedSlidesIds = array_diff($existingSlidesIds, $inputSlidesIds);
 
         // Delete those slides which are found in the above difference
-        SliderImage::where('slider_id', $id)->whereIn('id', $toBeDeletedSlidesIds)->delete();
+        $this->sliderImage->where('slider_id', $id)->whereIn('id', $toBeDeletedSlidesIds)->delete();
         
         foreach ($data['oldSlides'] as $slide) {
-            $slides = SliderImage::where('slider_id', $id)->where('id', $slide['id'])->first();
+            $slides = $this->sliderImage->where('slider_id', $id)->where('id', $slide['id'])->first();
             if($slides) {
                $slides->fill($slide);
                try {
@@ -171,7 +193,7 @@ class SliderController extends Controller
                  }
             } else {
                 try {
-                    SliderImage::create($slide);
+                    $this->sliderImage->create($slide);
                 } catch (QueryException $e) {
                      return redirect('laravel-slider::index')->with('error', $e->getMessage());  
                 }
@@ -192,9 +214,9 @@ class SliderController extends Controller
             $resultFiles = moveAllFiles($sliderImages, $oldPath, $targetPath, $sliderName);
 
             foreach ($data['slides'] as $slide) {
-             try {
                 $slide['slider_id'] = $id;
-                SliderImage::create($slide);
+             try {
+                $this->sliderImage->create($slide);
              } catch (Exception $e) {
                  return redirect('laravel-slider::edit')->with('error', $e->getMessage())->withInput();
              }
@@ -212,18 +234,18 @@ class SliderController extends Controller
     public function destroy($id)
     {
         
-        Slider::findOrFail($id)->delete();
+        $this->slider->findOrFail($id)->delete();
         return redirect('/slider');
     }
 
     public function formActions($id)
     {
-        $status = SliderImage::where('id', $id)->pluck('is_active')->first();
+        $status = $this->sliderImage->where('id', $id)->pluck('is_active')->first();
         if ($status == 1) {
-            SliderImage::find($id)->update(['is_active' => "0"]);
+            $this->sliderImage->find($id)->update(['is_active' => false]);
             return redirect('/slider');
         } else {
-            SliderImage::find($id)->update(['is_active' => "1"]);
+           $this->sliderImage->find($id)->update(['is_active' => true]);
             return redirect('/slider');
         }
     }
