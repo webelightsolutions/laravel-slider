@@ -17,9 +17,9 @@ class ImageSliderServiceProvider extends ServiceProvider
         // Config
         $this->publishes([__DIR__.'/../config/laravel-slider.php' => config_path('laravel-slider.php')]);
         // Migration
-       $this->publishes([__DIR__.'/../database/migrations' => $this->app->databasePath().'/migrations'], 'migrations');
+        $this->publishes([__DIR__.'/../database/migrations' => $this->app->databasePath().'/migrations'], 'migrations');
 
-       include __DIR__.'/routes.php';
+        include __DIR__.'/routes.php';
     }
 
     /**
@@ -29,11 +29,11 @@ class ImageSliderServiceProvider extends ServiceProvider
      */
     public function register()
     {
-       $this->app->bind('laravel-slider', function () {
-           return new LaravelSliderClass();
-       });
+        $this->app->bind('laravel-slider', function () {
+            return new LaravelSliderClass();
+        });
 
-       $this->app->make('Webelightdev\LaravelSlider\Controller\SliderController');
-       $this->loadViewsFrom(__DIR__.'/views', 'laravel-slider');
+        $this->app->make('Webelightdev\LaravelSlider\Controller\SliderController');
+        $this->loadViewsFrom(__DIR__.'/views', 'laravel-slider');
     }
 }

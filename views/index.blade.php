@@ -55,10 +55,9 @@
                             <a name="is_active" class="btn btn-primary btn-sm" href='{{ url("slider/changeStatus/$slider->id")}}'> Deactive </a> @endif
                             <form action="/slider/{{ $slider->id }}" method="POST">
                                 {{ csrf_field() }} {{ method_field('DELETE') }}
-                                <button class="btn btn-danger btn-sm ">Delete</button>
+                                <button class="btn btn-danger btn-sm m-left-53" style="margin-left: -53px; margin-top: 11px">Delete</button>
                             </form>
-                            <a href='{{ url("slider/$slider->id") }}' class="btn btn-default" target="_blank">Show</a>
-                            <button type="button" class="btn btn-default previewSlides" value="{{ $slider->id }}">Preview</button>
+                            <a href='{{ url("slider/$slider->id") }}' class="btn btn-default m-left-73" target="_blank">Show</a>
                         </td>
                     </tr>
                     @endforeach
