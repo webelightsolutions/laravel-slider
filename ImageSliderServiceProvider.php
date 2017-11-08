@@ -19,7 +19,10 @@ class ImageSliderServiceProvider extends ServiceProvider
         // Migration
         $this->publishes([__DIR__.'/../database/migrations' => $this->app->databasePath().'/migrations'], 'migrations');
 
-        include __DIR__.'/routes.php';
+        include __DIR__.'/src/Routes/web.php';
+
+        /*// resources
+        $this->publishes([__DIR__ . '/Resources/assets' => resource_path('assets/vendor/laravel-slider'),], 'assets');*/
     }
 
     /**
@@ -33,7 +36,11 @@ class ImageSliderServiceProvider extends ServiceProvider
             return new LaravelSliderClass();
         });
 
-        $this->app->make('Webelightdev\LaravelSlider\Controller\SliderController');
-        $this->loadViewsFrom(__DIR__.'/views', 'laravel-slider');
+        $this->app->bind('laravel-slider', function () {
+            return new SliderClass();
+        });
+
+        $this->app->make('Webelightdev\LaravelSlider\src\Controller\SliderController');
+        $this->loadViewsFrom(__DIR__.'/src/Resources/views', 'laravel-slider');
     }
 }

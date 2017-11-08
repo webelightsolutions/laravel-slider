@@ -30,7 +30,15 @@ class StoreSliderRequest extends FormRequest
             'auto_paly' => 'required',
             'slides_per_page' => 'required',
             'slider_width' => 'required',
-            'slider_height' => 'required'
+            'slider_height' => 'required',
+            'slider_id' => 'required',
+            'title' => 'required',
+            'is_active' => 'required',
+            'caption' => 'required',
+            'description' => 'required',
+            'image_name' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required'
         ];
     }
 }
