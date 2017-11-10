@@ -1,19 +1,31 @@
 <?php
 
-function moveAllFiles($files, $oldPath, $targetPath, $sliderName)
+function moveAllFiles($requestFiles, $oldPath, $targetPath, $sliderName)
 {
     $result = [];
-    $hasErrorInS3 = false;
     $files = Storage::disk('public')->files('temp/sliders/');
     
     foreach ($files as $file) {
         $directory = Storage::disk('public')->makeDirectory($sliderName);
-        Storage::disk('public')
-            ->move($file, $sliderName.'/original/'.basename($file));
 
+        Storage::disk('public')
+        ->move($file, $sliderName.'/original/'.basename($file));
     }
+    resizeImage($requestFiles, $sliderName.'/small/', 200, 200);
     $result['success'] = "Files have been moved successfully.";
     return $result;
+}
+
+function resizeImage($files, $storagePath, $width, $height)
+{
+    foreach ($files as $file) {
+        $directory = Storage::disk('public')->makeDirectory($storagePath);
+        $image = Image::make($file);
+        $image->resize($width, $height, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save();
+        Storage::disk('public')->put($storagePath.'/'.$file->getClientOriginalName(), $image);
+    }
 }
 
 

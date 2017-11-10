@@ -3,7 +3,7 @@
 namespace Webelightdev\LaravelSlider\src\Controller;
 
 use App\Http\Controllers\Controller;
-use Webelightdev\LaravelSlider\Requests\StoreSliderRequest;
+use Webelightdev\LaravelSlider\src\Requests\StoreSliderRequest;
 use Webelightdev\LaravelSlider\src\Slider;
 use Webelightdev\LaravelSlider\src\SliderImage;
 use Illuminate\Http\Request;
@@ -19,13 +19,18 @@ use Webelightdev\LaravelSlider\src\Helpers\EloquentHelpers;
 use Webelightdev\LaravelSlider\src\Helpers\IOHelpers;
 use Webelightdev\LaravelSlider\src\Exceptions\SliderCannotBeDeleted;
 use Webelightdev\LaravelSlider\src\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
+use Webelightdev\LaravelSlider\src\Classes\SliderClass;
+use Illuminate\Support\Traits\Macroable;
+use Webelightdev\LaravelSlider\src\Facades\Slider as LaravelSlider;
 
 class SliderController extends Controller
 {
+    use Macroable;
 
     protected $slider;
     
     protected $sliderImage;
+    protected $laravelSlider;
 
 
     public function __construct(Slider $slider, SliderImage $sliderImage)
@@ -67,10 +72,6 @@ class SliderController extends Controller
         // Get list of file names from request as array [temp storage]
         $sliderImages = $data['image_name'];
         $sliderName = $data['name'];
-
-        /*if (!$sliderImages) {
-            throw RequestDoesNotHaveFile::create();
-        }*/
 
         // Move SliderImages from temp storage to original storage
         $oldPath ='temp/'.$sliderName.'/';
@@ -118,6 +119,7 @@ class SliderController extends Controller
             where is_active = 1 AND slider_id = ? AND ? BETWEEN DATE_FORMAT(start_date, '%Y-%m-%d') AND DATE_FORMAT(end_date, '%Y-%m-%d')", [$slider->id, $currentFormatedDate]);
             return view('laravel-slider::show', compact('slides', 'slider'));
         }
+        return redirect('slider')->with('success', 'Please first active Slider');
     }
 
 
@@ -243,16 +245,12 @@ class SliderController extends Controller
         $result = [];
         $slider = $this->slider->findOrFail($id)->first();
 
-        /*if (!$slider) {
-            throw SliderCannotBeDeleted::doesNotBelongToModel($id);
-            return redirect('/slider')->with('error', 'Slider details does not Exists');
-        }*/
         try {
             $this->slider->where('id', $id)->delete();
         } catch (Exception $e) {
             return redirect('/slider')->with('error', $e->getMessage());
         }
-        return redirect('/slider');
+        return redirect('/slider')->with('success', 'Slider deleted successfully');
     }
 
     public function changeSliderStatus($id)
@@ -260,11 +258,19 @@ class SliderController extends Controller
 
         $status = $this->slider->where('id', $id)->pluck('is_active')->first();
         if ($status == 1) {
-            $this->slider->find($id)->update(['is_active' => false]);
-            return redirect('/slider');
+            try {
+                $this->slider->find($id)->update(['is_active' => false]);
+                return redirect('/slider');
+            } catch (Exception $e) {
+                return redirect('laravel-slider::index')->with('error', $e->getMessage());
+            }
         } else {
-            $this->slider->find($id)->update(['is_active' => true]);
-            return redirect('/slider');
+            try {
+                $this->slider->find($id)->update(['is_active' => true]);
+                return redirect('/slider');
+            } catch (Exception $e) {
+                return redirect('laravel-slider::index')->with('error', $e->getMessage());
+            }
         }
     }
 }

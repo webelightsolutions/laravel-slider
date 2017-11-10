@@ -4,6 +4,8 @@ namespace Webelightdev\LaravelSlider;
 
 use Illuminate\Support\ServiceProvider;
 use Webelightdev\LaravelSlider\Classes\LaravelSliderClass;
+use Illuminate\Support\Facades\View;
+use Webelightdev\LaravelSlider\src\Classes\SliderClass;
 
 class ImageSliderServiceProvider extends ServiceProvider
 {
