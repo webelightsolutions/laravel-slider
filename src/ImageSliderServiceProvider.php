@@ -24,10 +24,6 @@ class ImageSliderServiceProvider extends ServiceProvider
 
         include __DIR__.'/Routes/web.php';
 
-        $this->publishes([
-        __DIR__.'/public' => public_path('vendor/Webelightdev\LaravelSlider\src'),
-        ], 'public');
-
         /*// resources
         $this->publishes([__DIR__ . '/Resources/assets' => resource_path('assets/vendor/laravel-slider'),], 'assets');*/
     }
