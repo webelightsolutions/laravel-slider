@@ -1,9 +1,9 @@
 <?php
 
-namespace Webelightdev\LaravelSlider\src\Exceptions\FileCannotBeAdded;
+namespace Webelightdev\LaravelSlider\Exceptions\FileCannotBeAdded;
 
-use Webelightdev\LaravelSlider\src\Helpers\EloquentHelpers;
-use Webelightdev\LaravelSlider\src\Exceptions\FileCannotBeAdded;
+use Webelightdev\LaravelSlider\Helpers\EloquentHelpers;
+use Webelightdev\LaravelSlider\Exceptions\FileCannotBeAdded;
 
 class RequestDoesNotHaveFile extends FileCannotBeAdded
 {

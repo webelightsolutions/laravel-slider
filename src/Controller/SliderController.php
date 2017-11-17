@@ -1,11 +1,11 @@
 <?php
 
-namespace Webelightdev\LaravelSlider\src\Controller;
+namespace Webelightdev\LaravelSlider\Controller;
 
 use App\Http\Controllers\Controller;
-use Webelightdev\LaravelSlider\src\Requests\StoreSliderRequest;
-use Webelightdev\LaravelSlider\src\Slider;
-use Webelightdev\LaravelSlider\src\SliderImage;
+use Webelightdev\LaravelSlider\Requests\StoreSliderRequest;
+use Webelightdev\LaravelSlider\Slider;
+use Webelightdev\LaravelSlider\SliderImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
-use Webelightdev\LaravelSlider\src\Helpers\EloquentHelpers;
-use Webelightdev\LaravelSlider\src\Helpers\IOHelpers;
-use Webelightdev\LaravelSlider\src\Exceptions\SliderCannotBeDeleted;
-use Webelightdev\LaravelSlider\src\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
-use Webelightdev\LaravelSlider\src\Classes\SliderClass;
+use Webelightdev\LaravelSlider\Helpers\EloquentHelpers;
+use Webelightdev\LaravelSlider\Helpers\IOHelpers;
+use Webelightdev\LaravelSlider\Exceptions\SliderCannotBeDeleted;
+use Webelightdev\LaravelSlider\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
+use Webelightdev\LaravelSlider\Classes\SliderClass;
 use Illuminate\Support\Traits\Macroable;
-use Webelightdev\LaravelSlider\src\Facades\Slider as LaravelSlider;
+use Webelightdev\LaravelSlider\Facades\Slider as LaravelSlider;
 
 class SliderController extends Controller
 {

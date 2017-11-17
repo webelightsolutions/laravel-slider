@@ -1,6 +1,6 @@
 <?php
 
-namespace Webelightdev\LaravelSlider\src\Requests;
+namespace Webelightdev\LaravelSlider\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

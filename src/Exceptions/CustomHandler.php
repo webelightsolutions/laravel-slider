@@ -1,11 +1,11 @@
 <?php
 
-namespace Webelightdev\LaravelSlider\src\Exceptions;
+namespace Webelightdev\LaravelSlider\Exceptions;
 
 use Exception;
 use App\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Contracts\Container\Container;
-use Webelightdev\LaravelSlider\src\Slider;
+use Webelightdev\LaravelSlider\Slider;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Support\Facades\View;
 

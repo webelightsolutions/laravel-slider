@@ -5,7 +5,7 @@ namespace Webelightdev\LaravelSlider;
 use Illuminate\Support\ServiceProvider;
 use Webelightdev\LaravelSlider\Classes\LaravelSliderClass;
 use Illuminate\Support\Facades\View;
-use Webelightdev\LaravelSlider\src\Classes\SliderClass;
+use Webelightdev\LaravelSlider\Classes\SliderClass;
 
 class ImageSliderServiceProvider extends ServiceProvider
 {
@@ -43,7 +43,7 @@ class ImageSliderServiceProvider extends ServiceProvider
             return new SliderClass();
         });
 
-        $this->app->make('Webelightdev\LaravelSlider\src\Controller\SliderController');
+        $this->app->make('Webelightdev\LaravelSlider\Controller\SliderController');
         $this->loadViewsFrom(__DIR__.'/Resources/views', 'laravel-slider');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Webelightdev\LaravelSlider\src\Exceptions;
+namespace Webelightdev\LaravelSlider\Exceptions;
 
 use Exception;
 

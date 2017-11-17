@@ -1,6 +1,6 @@
 <?php
 
-namespace Webelightdev\LaravelSlider\src\Facades;
+namespace Webelightdev\LaravelSlider\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

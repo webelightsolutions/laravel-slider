@@ -1,9 +1,9 @@
 <?php
 
-namespace Webelightdev\LaravelSlider\src\Exceptions;
+namespace Webelightdev\LaravelSlider\Exceptions;
 
 use Exception;
-use Webelightdev\LaravelSlider\src\Slider;
+use Webelightdev\LaravelSlider\Slider;
 
 class SliderCannotBeDeleted extends Exception
 {

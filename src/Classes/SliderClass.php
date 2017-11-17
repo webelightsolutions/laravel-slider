@@ -1,8 +1,8 @@
 <?php
 
-namespace Webelightdev\LaravelSlider\src\Classes;
+namespace Webelightdev\LaravelSlider\Classes;
 
-use Webelightdev\LaravelSlider\src\Slider;
+use Webelightdev\LaravelSlider\Slider;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Facades\View;
 

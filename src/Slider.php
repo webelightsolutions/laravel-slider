@@ -1,9 +1,9 @@
 <?php
 
-namespace Webelightdev\LaravelSlider\src;
+namespace Webelightdev\LaravelSlider;
 
 use Illuminate\Database\Eloquent\Model;
-use Webelightdev\LaravelSlider\src\SliderImage;
+use Webelightdev\LaravelSlider\SliderImage;
 
 class Slider extends Model
 {
