@@ -1,6 +1,6 @@
 <?php
 
-namespace Webelightdev\LaravelSlider\src;
+namespace Webelightdev\LaravelSlider;
 
 use Illuminate\Support\ServiceProvider;
 use Webelightdev\LaravelSlider\Classes\LaravelSliderClass;
