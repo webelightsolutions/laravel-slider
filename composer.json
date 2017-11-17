@@ -12,7 +12,7 @@
             "email": "pateljitendra3fw@gmail.com"
         }
     ],
-     "autoload": {
+     "autoload-dev": {
         "psr-4": {
             "Webelightdev\\LaravelSlider\\": "src"
         }
