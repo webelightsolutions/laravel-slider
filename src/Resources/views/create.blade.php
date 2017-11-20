@@ -11,23 +11,10 @@
         </div>
         <form method="POST" action="/slider" enctype="multipart/form-data" id="multiple_upload_form">
             <div class="panel-body">
-                @if (session('success'))
-                <div class="alert alert-success">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Success</strong> {{ session('success') }}
-                </div>
-                @elseif (session('error'))
-                <div class="alert alert-danger">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Error!</strong> {{ session('error') }}
-                </div>
-                @endif {{ csrf_field() }}
+                 {{ csrf_field() }}
                 <div class="form-group">
                     <label class="color-black">Slider Name </label>
-                    <input type="text" name="name" class="form-control" id="sliderName" value="{{ old('name')}}"> @if ($errors->has('name'))
-                    <span class="help-block">
-                                                    <strong class="color">{{ $errors->first('name') }}</strong>
-                                                </span> @endif
+                    <input type="text" name="name" class="form-control" id="sliderName"> 
                 </div>
                 <div class="form-group">
                     <label class="color-black"> Slider Type </label>
@@ -45,24 +32,15 @@
                 </div>
                 <div class="form-group">
                     <label class="color-black"> Slides Per Page</label>
-                    <input type="text" name="slides_per_page" class="form-control"> @if ($errors->has('slides_per_page'))
-                    <span class="help-block">
-                                                    <strong class="color">{{ $errors->first('slides_per_page') }}</strong>
-                                                </span> @endif
+                    <input type="text" name="slides_per_page" class="form-control"> 
                 </div>
                 <div class="form-group">
                     <label class="color-black"> Slider Width (%)</label>
-                    <input type="text" name="slider_width" class="form-control"> @if ($errors->has('slider_width'))
-                    <span class="help-block">
-                                                    <strong class="color">{{ $errors->first('slider_width') }}</strong>
-                                                </span> @endif
+                    <input type="text" name="slider_width" class="form-control"> 
                 </div>
                 <div class="form-group">
                     <label class="color-black"> Slider Height (%)</label>
-                    <input type="text" name="slider_height" class="form-control"> @if ($errors->has('slider_height'))
-                    <span class="help-block">
-                                                    <strong class="color">{{ $errors->first('slider_height') }}</strong>
-                                                </span> @endif
+                    <input type="text" name="slider_height" class="form-control"> 
                 </div>
                 <div class="form-group">
                     <label class="color-black">Images</label>
