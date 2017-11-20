@@ -12,6 +12,11 @@
             "email": "pateljitendra3fw@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Webelightdev\\LaravelSlider\\": "src"
+        }
+    },
      
     "minimum-stability": "dev"
 }
