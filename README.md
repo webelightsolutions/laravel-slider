@@ -47,9 +47,6 @@ or
 localhost/yourapp/slider
 
 #### Demo
-
-![All Slider Page](/../master/src/public/images/demo1.png?raw=true "All Slider Page")
-![Create Slider Page](/../master/src/public/images/demo2.png?raw=true "Create Slider Page")
-![Slider Preview Page](/../master/src/public/images/demo3.png?raw=true "Slider Preview Page")
+![dem1](https://user-images.githubusercontent.com/32864560/33022440-372188c8-ce2b-11e7-995a-b305e8aa0a1d.jpg)
 
 
