@@ -1,6 +1,11 @@
 # laravel-slider
 Image slider using Laravel
 
+
+#### Demo
+![dem1](https://user-images.githubusercontent.com/32864560/33022440-372188c8-ce2b-11e7-995a-b305e8aa0a1d.jpg)
+
+
 ## Following are the step to configure Image Slider
 
 
@@ -46,7 +51,5 @@ www.yourdomain.com/slider
 or 
 localhost/yourapp/slider
 
-#### Demo
-![dem1](https://user-images.githubusercontent.com/32864560/33022440-372188c8-ce2b-11e7-995a-b305e8aa0a1d.jpg)
 
 
