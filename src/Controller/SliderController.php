@@ -69,6 +69,7 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+      
         // Get list of file names from request as array [temp storage]
         $sliderImages = $data['image_name'];
         $sliderName = $data['name'];
@@ -76,7 +77,7 @@ class SliderController extends Controller
         // Move SliderImages from temp storage to original storage
         $oldPath ='temp/'.$sliderName.'/';
         $targetPath = 'slide';
-        $resultFiles = moveAllFiles($sliderImages, $oldPath, $targetPath, $sliderName);
+        $resultFiles = EloquentHelpers::moveAllFiles($sliderImages, $oldPath, $targetPath, $sliderName);
 
         $path = $data['name'].'/';
         try {
@@ -142,7 +143,7 @@ class SliderController extends Controller
         $path = 'temp/'.$folderName. '/';
 
         foreach ($selectedFiles as $file) {
-            $images[] = uploadFile($path, $file, 'public');
+            $images[] = EloquentHelpers::uploadFile($path, $file, 'public');
         }
         return view('laravel-slider::preview', compact('selectedFiles', 'folderName', 'images'));
     }
@@ -218,7 +219,7 @@ class SliderController extends Controller
             // Move SliderImages from temp storage to original storage
             $oldPath ='temp/'.$sliderName.'/';
             $targetPath = 'slide';
-            $resultFiles = moveAllFiles($sliderImages, $oldPath, $targetPath, $sliderName);
+            $resultFiles = EloquentHelpers::moveAllFiles($sliderImages, $oldPath, $targetPath, $sliderName);
 
             foreach ($data['slides'] as $slide) {
                 $slide['slider_id'] = $id;

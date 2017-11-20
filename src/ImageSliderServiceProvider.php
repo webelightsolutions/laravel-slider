@@ -24,8 +24,12 @@ class ImageSliderServiceProvider extends ServiceProvider
 
         include __DIR__.'/Routes/web.php';
 
-        /*// resources
-        $this->publishes([__DIR__ . '/Resources/assets' => resource_path('assets/vendor/laravel-slider'),], 'assets');*/
+        
+      /*  $this->loadViewsFrom(__DIR__ . '/Resources/views', 'laravel-slider');
+      
+        $this->publishes([
+        __DIR__.'/Resources/views' => resource_path('views/vendor/laravel-slider'),
+        ]);*/
     }
 
     /**
