@@ -6,6 +6,10 @@ Image slider using Laravel
 ![dem1](https://user-images.githubusercontent.com/32864560/33022440-372188c8-ce2b-11e7-995a-b305e8aa0a1d.jpg)
 ![demo2](https://user-images.githubusercontent.com/32864560/33022741-2bcec46c-ce2c-11e7-87fd-8a6d89848456.jpg)
 
+## Laravel slider plugin requires the following components to work correctly
+
+    Intervention Image
+
 ## Following are the step to configure Image Slider
 
 
