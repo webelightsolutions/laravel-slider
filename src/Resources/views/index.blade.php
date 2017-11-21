@@ -1,4 +1,5 @@
  @extends('layouts.app') @section('content')
+ <div class="container-fluid">
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="row">
@@ -7,7 +8,6 @@
                 <a href='{{ url("slider/create") }}' class="btn btn-default btn-sm">+ Add New</a>
             </div>
         </div>
-    </div>
     <div class="panel-body">
     @if (session('success'))
             <div class="alert alert-success">
@@ -23,16 +23,17 @@
         <div class="table-responsive">
             <table class="table table-striped table-bordered task-table">
                 <thead>
-                    <th>Sr.No.</th>
-                    <th>Name</th>
-                    <th>Slider Type </th>
-                    <th>Slides Per Page</th>
-                    <th>Auto Play</th>
-                    <th>Is Active</th>
+                    <th class="text-center">Sr.No.</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Slider Type </th>
+                    <th class="text-center">Slides Per Page</th>
+                    <th class="text-center">Auto Play</th>
+                    <th class="text-center">Is Active</th>
                     <th class="text-center">Actions</th>
                 </thead>
                 @if (count($sliders) > 0)
                 <tbody>
+    </div>
                     <?php $counter = 1; ?> @foreach ($sliders as $slider)
                     <tr> 
                         <td>{{ $counter++ }}</td>
@@ -59,16 +60,15 @@
                             <div> No </div>
                             @endif
                         </td>
-                        <td class="text-center">
-                            {{-- <a href='{{ url("slider/$slider->id") }}' class="btn btn-success btn-sm btn btn-info" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">View</a> --}}
+                        <td class="td-actions text-center">
+                            <a href='{{ url("slider/$slider->id") }}' class="btn btn-default m-left-75" target="_blank">Preview</a>
                             <a href='{{ url("slider/$slider->id/edit") }}' class="btn btn-default">Edit</a> @if($slider->is_active == 0)
                             <a name="is_active" class="btn btn-primary btn-sm" href='{{ url("slider/changeStatus/$slider->id")}}'> Active </a> @else
-                            <a name="is_active" class="btn btn-primary btn-sm" href='{{ url("slider/changeStatus/$slider->id")}}'> Deactive </a> @endif
+                            <a name="is_active" class="btn btn-primary btn-sm" href='{{ url("slider/changeStatus/$slider->id")}}'> Inactive </a> @endif
                             <form action="/slider/{{ $slider->id }}" method="POST">
                                 {{ csrf_field() }} {{ method_field('DELETE') }}
-                                <button class="btn btn-danger btn-sm m-left-53" style="margin-left: -53px; margin-top: 11px">Delete</button>
+                                <button class="btn btn-danger btn-sm  td-actions">Delete</button>
                             </form>
-                            <a href='{{ url("slider/$slider->id") }}' class="btn btn-default m-left-73" target="_blank">Show</a>
                         </td>
                     </tr>
                     @endforeach
@@ -83,6 +83,7 @@
             </table>
         </div>
     </div>
+</div>
 </div>
 
 @endsection
