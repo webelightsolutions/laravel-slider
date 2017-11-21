@@ -112,15 +112,12 @@ class SliderController extends Controller
         
         $currentDate = Carbon::now();
         $currentFormatedDate = $currentDate->format("Y-m-d");
-        $slider = $this->slider->where('id', $id)->where('is_active', 1)->first();
+        $slider = $this->slider->where('id', $id)->first();
 
-        if ($slider) {
             $slides = \DB::select("
             SELECT * from slider_images 
             where is_active = 1 AND slider_id = ? AND ? BETWEEN DATE_FORMAT(start_date, '%Y-%m-%d') AND DATE_FORMAT(end_date, '%Y-%m-%d')", [$slider->id, $currentFormatedDate]);
             return view('laravel-slider::show', compact('slides', 'slider'));
-        }
-        return redirect('slider')->with('success', 'Please first active Slider');
     }
 
 
