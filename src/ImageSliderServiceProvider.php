@@ -17,7 +17,7 @@ class ImageSliderServiceProvider extends ServiceProvider
     public function boot()
     {
         // Config
-        $this->publishes([__DIR__.'/../config/laravel-slider.php' => config_path('laravel-slider.php')]);
+       // $this->publishes([__DIR__.'/../config/laravel-slider.php' => config_path('laravel-slider.php')]);
         // Migration
        
          $this->publishes([__DIR__.'/../database/migrations' => $this->app->databasePath().'/migrations'], 'migrations');
