@@ -6,14 +6,14 @@ Image slider using Laravel
 ![dem1](https://user-images.githubusercontent.com/32864560/33022440-372188c8-ce2b-11e7-995a-b305e8aa0a1d.jpg)
 ![demo2](https://user-images.githubusercontent.com/32864560/33022741-2bcec46c-ce2c-11e7-87fd-8a6d89848456.jpg)
 
-## Laravel slider plugin requires the following components to work correctly
-
-    Intervention Image
 
 ## Following are the step to configure Image Slider
 
+### Step 1:Laravel slider plugin requires the following components to work correctly
 
-#### Step 1:copy vendor using composer
+    Intervention Image
+
+#### Step 2:copy vendor using composer
 
     composer require webelightdev/laravel-slider dev-master
     
@@ -25,7 +25,7 @@ Image slider using Laravel
     }
     composer update
 
-#### step 2: Copy providers to config/app.php
+#### step 3: Copy providers to config/app.php
 
     'providers' => [
      // ...
@@ -34,15 +34,15 @@ Image slider using Laravel
 
     ]
 
-#### step 3: Run  
+#### step 4: Run  
 	php artisan vendor:publish
 
 
-#### step 4: Run  
+#### step 5: Run  
 	php artisan migrate
 
 	
-#### step 5: This packager Required Auth login if you don't have Auth login 
+#### step 6: This packager Required Auth login if you don't have Auth login 
 
 	php artisan make:auth
     php artisan migrate
