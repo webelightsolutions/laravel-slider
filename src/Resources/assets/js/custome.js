@@ -10,9 +10,6 @@ $(function() {
     $('input[type=file]').on('change', function(event) {
         files = event.target.files;
 
-
-
-
         // Create a formdata object and add the files
         var data = new FormData();
 

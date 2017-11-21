@@ -18,18 +18,19 @@ class ImageSliderServiceProvider extends ServiceProvider
     {
         // Config
        // $this->publishes([__DIR__.'/../config/laravel-slider.php' => config_path('laravel-slider.php')]);
-        // Migration
        
+        // Migration
          $this->publishes([__DIR__.'/../database/migrations' => $this->app->databasePath().'/migrations'], 'migrations');
 
+        //acess Routes
         include __DIR__.'/Routes/web.php';
 
         
-      /*  $this->loadViewsFrom(__DIR__ . '/Resources/views', 'laravel-slider');
-      
-        $this->publishes([
-        __DIR__.'/Resources/views' => resource_path('views/vendor/laravel-slider'),
-        ]);*/
+       /* $this->loadViewsFrom(__DIR__ . '/Resources/views', 'laravel-slider');*/
+       
+        // to Publish assets Folder
+        $this->publishes([__DIR__.'/Resources/assets' => public_path('vendor/assets'),
+        ]);
     }
 
     /**
