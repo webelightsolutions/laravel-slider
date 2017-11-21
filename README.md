@@ -38,10 +38,7 @@ Image slider using Laravel
 	php artisan migrate
 
 	
-#### step 5: create public/uploads folder  and set permission 0777
-
-This packager Required Auth login
-if you don't have Auth login 
+#### step 5: This packager Required Auth login if you don't have Auth login 
 
 	php artisan make:auth
     php artisan migrate
