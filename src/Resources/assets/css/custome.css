@@ -1,4 +1,30 @@
-.m-top-50 {
+.m-top-60 {
 margin-left: 257px;
-margin-top: -57px;
+    margin-top: -57px;
+}
+
+.m-left-73 {
+  margin-left: 73px;
+  margin-top: -49px;
+ }
+
+.m-left-53 {
+ margin-left: -53px; 
+ margin-top: 11px;
+}
+
+.color {
+  color: red;
+}
+
+.image-action {
+   
+  text-align: right;
+  position: absolute;
+ 
+  margin-right: 20px;
+  margin-top: 5px;
+
+  top: 0px;
+  right: 0;
 }
