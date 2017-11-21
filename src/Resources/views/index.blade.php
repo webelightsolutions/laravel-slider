@@ -67,7 +67,7 @@
                             <a name="is_active" class="btn btn-primary btn-sm" href='{{ url("slider/changeStatus/$slider->id")}}'> Inactive </a> @endif
                             <form action="/slider/{{ $slider->id }}" method="POST">
                                 {{ csrf_field() }} {{ method_field('DELETE') }}
-                                <button class="btn btn-danger btn-sm  td-actions">Delete</button>
+                                <button class="btn btn-danger btn-sm m-top-60">Delete</button>
                             </form>
                         </td>
                     </tr>

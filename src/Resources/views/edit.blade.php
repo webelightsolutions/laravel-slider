@@ -93,4 +93,11 @@
         </form>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    function removeImage(id){
+        $(id).parent().remove();
+    } 
+ </script>
 @endsection
