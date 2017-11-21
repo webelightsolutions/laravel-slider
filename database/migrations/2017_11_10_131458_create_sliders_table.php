@@ -23,6 +23,8 @@ class CreateSlidersTable extends Migration
             $table->integer('slider_width')->nullable();
             $table->integer('slider_height')->nullable();
             $table->boolean('is_active')->default(1);
+            $table->integer('model_id')->unsigned()->nullable()->index()->comment('Model id');
+            $table->string('model_type')->nullable()->index()->comment('Model Name');
         });
     }
 
