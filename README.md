@@ -54,8 +54,6 @@ Image slider using Laravel
     php artisan migrate
 
 #### you can view laravel slider by writing:
-www.yourdomain.com/slider 
-or 
 localhost/yourapp/slider
 
 
