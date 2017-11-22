@@ -4,6 +4,8 @@ Image slider using Laravel
 
 #### Demo
 ![new1 1](https://user-images.githubusercontent.com/32864560/33128148-5c004364-cfb1-11e7-85bf-e88744636157.png)
+
+#### Preview
 ![new2 1](https://user-images.githubusercontent.com/32864560/33128164-69ca895a-cfb1-11e7-97fb-ff8dbf9558ef.png)
 
 
