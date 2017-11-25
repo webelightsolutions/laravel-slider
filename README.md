@@ -52,6 +52,11 @@ Image slider using Laravel
 
 	php artisan make:auth
     php artisan migrate
+    
+### step 7: Add following link in your file for load CSS and Javasript
+
+	   <script src="{{ asset('vendor/assets/js/custome.js') }}"></script>
+	   <link href="{{ asset('vendor/assets/css/custome.css') }}" rel="stylesheet">
 
 #### you can view laravel slider by writing:
 localhost/yourapp/slider
