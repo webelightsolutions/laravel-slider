@@ -3,8 +3,10 @@ Image slider using Laravel
 
 
 #### Demo
-![dem1](https://user-images.githubusercontent.com/32864560/33022440-372188c8-ce2b-11e7-995a-b305e8aa0a1d.jpg)
-![demo2](https://user-images.githubusercontent.com/32864560/33022741-2bcec46c-ce2c-11e7-87fd-8a6d89848456.jpg)
+![new1 1](https://user-images.githubusercontent.com/32864560/33128148-5c004364-cfb1-11e7-85bf-e88744636157.png)
+
+#### Preview
+![new2 1](https://user-images.githubusercontent.com/32864560/33128164-69ca895a-cfb1-11e7-97fb-ff8dbf9558ef.png)
 
 
 ## Following are the step to configure Image Slider
@@ -50,10 +52,13 @@ Image slider using Laravel
 
 	php artisan make:auth
     php artisan migrate
+    
+#### step 7: Add following link in your blade file for load CSS and Javasript
+
+	   <script src="{{ asset('vendor/assets/js/custome.js') }}"></script>
+	   <link href="{{ asset('vendor/assets/css/custome.css') }}" rel="stylesheet">
 
 #### you can view laravel slider by writing:
-www.yourdomain.com/slider 
-or 
 localhost/yourapp/slider
 
 
