@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Webelightdev\LaravelSlider\Classes\LaravelSliderClass;
 use Illuminate\Support\Facades\View;
 use Webelightdev\LaravelSlider\Classes\SliderClass;
+use Webelightdev\LaravelSlider\Controller\SliderController;
 
 class ImageSliderServiceProvider extends ServiceProvider
 {
@@ -27,8 +28,9 @@ class ImageSliderServiceProvider extends ServiceProvider
 
         
        /* $this->loadViewsFrom(__DIR__ . '/Resources/views', 'laravel-slider');*/
-       
+
         // to Publish assets Folder
+    
         $this->publishes([__DIR__.'/Resources/assets' => public_path('vendor/assets'),
         ]);
     }
@@ -40,13 +42,13 @@ class ImageSliderServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('laravel-slider', function () {
-            return new LaravelSliderClass();
+        $this->app->bind('slider', function () {
+                  return new SliderController();
         });
 
-        $this->app->bind('laravel-slider', function () {
+        /*$this->app->bind('laravel-slider', function () {
             return new SliderClass();
-        });
+        });*/
 
         $this->app->make('Webelightdev\LaravelSlider\Controller\SliderController');
         $this->loadViewsFrom(__DIR__.'/Resources/views', 'laravel-slider');

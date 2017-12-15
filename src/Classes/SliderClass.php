@@ -12,26 +12,24 @@ class SliderClass
     
     protected $slider;
 
-    public function __construct(Slider $slider)
+    public function __construct()
     {
-        $this->slider = $slider;
-    }
-    
-
-    public function findBy($attribute, $value)
-    {
-        $slider = $this->slider->where($attribute, $value)->where('is_active', 1)->get();
-        return view('laravel-slider::show', compact('slider'));
     }
 
+    public static function findBy($attribute, $value)
+    {
+        $slider = Slider::where('id', 1)->where('is_active', 1)->with('slides')->first();
+        $sliderJsonObj = response()->json($slider);
+        return $sliderJsonObj;
+    }
     
     public function sliderItems()
     {
-        $slider = new SliderClass;
-        $slider->macro('main', function () {
-            return $this->$slider->findBy($attribute, $value)
-            ->setActiveFromRequest();
-        });
-        $slider->main();
+        // $slider = new SliderClass;
+        // $slider->macro('main', function () {
+        //     return $this->$slider->findBy($attribute, $value)
+        //     ->setActiveFromRequest();
+        // });
+        // $slider->main();
     }
 }

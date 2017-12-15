@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Webelightdev\LaravelSlider\Requests\StoreSliderRequest;
 use Webelightdev\LaravelSlider\Slider;
 use Webelightdev\LaravelSlider\SliderImage;
+use Webelightdev\LaravelSlider\SliderEntitie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -35,7 +36,7 @@ class SliderController extends Controller
 
     public function __construct(Slider $slider, SliderImage $sliderImage)
     {
-        $this->slider = $slider;
+         $this->slider = $slider;
         $this->sliderImage = $sliderImage;
     }
 
@@ -271,4 +272,31 @@ class SliderController extends Controller
             }
         }
     }
+
+    // public function get($entityType, $entityId)
+    // {
+    //     if (isset($entityType)) {
+    //         if ($entityType == 'slider' && isset($entityId)) {
+    //             $sliders = $this->slider->where('entity_type', $entityType)->where('entity_id', $entityId)->first();
+    //         } else {
+    //             $sliders = $this->slider->join('slider_entities')->where('entity_type', $entityType)->where('entity_id', $entityId)->get();
+    //         }
+    //     } else {
+    //         $sliders = $this->slider->where('entity_type', $entityType)->get();
+    //     }
+    //     return view('laravel-slider::show', compact('sliders'));
+    // }
+
+    // public function sliderEntities(Request $request)
+    // {
+    //     DB::beginTransaction();
+    //     try {
+    //         $this->sliderEntitie->create($request->all())
+    //     } catch (Exception $e) {
+    //         return redirect('/slider')->with('error', $e->getMessage())->withInput();
+    //     }
+
+    //     DB::commit();
+    //     return redirect('/slider')->with('success', 'Slider stored successfully.');
+    // }
 }
