@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends(Config::get('slider.appFileLocation'))
 @section('content')
 <div class="container">
 <script async src="https://cdn.ampproject.org/v0.js"></script>

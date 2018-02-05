@@ -1,4 +1,4 @@
- @extends('layouts.app') @section('content')
+ @extends(Config::get('slider.appFileLocation')) @section('content')
  <div class="container-fluid">
 <div class="panel panel-default">
     <div class="panel-heading">
