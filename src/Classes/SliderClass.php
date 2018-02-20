@@ -4,12 +4,11 @@ namespace Webelightdev\LaravelSlider\Classes;
 
 use Webelightdev\LaravelSlider\Slider;
 use Illuminate\Support\Traits\Macroable;
-use Illuminate\Support\Facades\View;
 
 class SliderClass
 {
     use Macroable;
-    
+
     protected $slider;
 
     public function __construct()
@@ -18,11 +17,12 @@ class SliderClass
 
     public static function findBy($attribute, $value)
     {
-        $slider = Slider::where('id', 1)->where('is_active', 1)->with('slides')->first();
+        $slider = Slider::where($attribute, $value)->where('is_active', 1)->with('slides')->first();
         $sliderJsonObj = response()->json($slider);
+
         return $sliderJsonObj;
     }
-    
+
     public function sliderItems()
     {
         // $slider = new SliderClass;
